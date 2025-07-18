@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useWallet } from '../contexts/WalletContext';
-import { Truck, User, LogOut, Menu, X } from 'lucide-react';
+import { Truck, User, LogOut, Menu, X, BarChart3 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import NotificationCenter from './tracking/NotificationCenter';
 
 const Navbar: React.FC = () => {
   const { account, userRole, disconnect } = useWallet();
@@ -12,6 +13,7 @@ const Navbar: React.FC = () => {
 
   const navigation = [
     { name: 'Dashboard', href: `/${userRole}`, current: location.pathname === `/${userRole}` },
+    { name: 'Analytics', href: '/analytics', current: location.pathname === '/analytics' },
     ...(userRole === 'sender' ? [
       { name: 'Create Parcel', href: '/create-parcel', current: location.pathname === '/create-parcel' }
     ] : [])
@@ -53,6 +55,9 @@ const Navbar: React.FC = () => {
 
           {/* User Menu */}
           <div className="flex items-center space-x-4">
+            {/* Notification Center */}
+            <NotificationCenter />
+
             {/* Role Badge */}
             <div className={`px-3 py-1 rounded-full text-xs font-medium ${
               userRole === 'sender' 

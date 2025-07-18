@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Package, Plus, Clock, CheckCircle, Truck, MapPin, User, Phone } from 'lucide-react';
+import { Package, Plus, Clock, CheckCircle, Truck, MapPin, User, Phone, Eye } from 'lucide-react';
 
 interface Parcel {
   id: string;
@@ -21,6 +21,7 @@ interface Parcel {
 }
 
 const SenderDashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [parcels, setParcels] = useState<Parcel[]>([
     {
       id: '1',
@@ -214,6 +215,19 @@ const SenderDashboard: React.FC = () => {
                             <span className="text-yellow-400">★</span>
                             <span className="text-sm text-gray-300">{parcel.driver.rating}/5.0</span>
                           </div>
+                        </div>
+                      )}
+
+                      {/* Track Parcel Button */}
+                      {(parcel.status === 'accepted' || parcel.status === 'in-transit') && (
+                        <div className="mt-4">
+                          <button
+                            onClick={() => navigate(`/track/${parcel.id}`)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+                          >
+                            <Eye className="h-4 w-4" />
+                            <span>Track My Parcel</span>
+                          </button>
                         </div>
                       )}
                     </div>

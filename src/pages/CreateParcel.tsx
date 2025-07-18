@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps-api';
 import { Package, MapPin, DollarSign, Calendar, Truck } from 'lucide-react';
-import 'leaflet/dist/leaflet.css';
+
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%',
+};
+
+const defaultCenter = {
+  lat: 19.0760,
+  lng: 72.8777,
+};
 
 interface ParcelData {
   fromAddress: string;
@@ -115,11 +124,52 @@ const CreateParcel: React.FC = () => {
             </div>
 
             {/* Map placeholder */}
-            <div className="bg-gray-700 rounded-lg h-64 flex items-center justify-center border border-gray-600">
-              <div className="text-center">
-                <MapPin className="h-12 w-12 text-gray-500 mx-auto mb-2" />
-                <p className="text-gray-400">Route will be displayed here</p>
-                <p className="text-sm text-gray-500 mt-1">Interactive map with pickup and delivery points</p>
+            <div className="bg-gray-700 rounded-lg h-64 border border-gray-600 overflow-hidden">
+              <LoadScript googleMapsApiKey={process.env.VITE_GOOGLE_MAPS_API_KEY || ''}>
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  center={defaultCenter}
+                  zoom={10}
+                  options={{
+                    styles: [
+                      {
+                        featureType: 'all',
+                        elementType: 'geometry.fill',
+                        stylers: [{ color: '#1f2937' }],
+                      },
+                    ],
+                  }}
+                >
+                  {parcelData.fromAddress && (
+                    <Marker
+                      position={defaultCenter}
+                      icon={{
+                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="15" cy="15" r="12" fill="#10B981" stroke="#059669" stroke-width="2"/>
+                            <text x="15" y="19" text-anchor="middle" fill="white" font-size="12" font-weight="bold">P</text>
+                          </svg>
+                        `),
+                        scaledSize: new google.maps.Size(30, 30),
+                      }}
+                    />
+                  )}
+                  {parcelData.toAddress && (
+                    <Marker
+                      position={{ lat: defaultCenter.lat + 0.01, lng: defaultCenter.lng + 0.01 }}
+                      icon={{
+                        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="15" cy="15" r="12" fill="#EF4444" stroke="#DC2626" stroke-width="2"/>
+                            <text x="15" y="19" text-anchor="middle" fill="white" font-size="12" font-weight="bold">D</text>
+                          </svg>
+                        `),
+                        scaledSize: new google.maps.Size(30, 30),
+                      }}
+                    />
+                  )}
+                </GoogleMap>
+              </LoadScript>
               </div>
             </div>
           </motion.div>
