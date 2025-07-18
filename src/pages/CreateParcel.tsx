@@ -170,7 +170,6 @@ const CreateParcel: React.FC = () => {
                   )}
                 </GoogleMap>
               </LoadScript>
-              </div>
             </div>
           </motion.div>
         );
