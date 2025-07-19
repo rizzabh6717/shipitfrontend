@@ -19,7 +19,6 @@
     "ethers": "^6.8.1",
     "framer-motion": "^10.16.5",
     "socket.io-client": "^4.7.4",
-    "@react-google-maps-api": "^2.19.2",
     "recharts": "^2.8.0",
     "react-hot-toast": "^2.4.1"
   },
