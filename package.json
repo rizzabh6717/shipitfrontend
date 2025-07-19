@@ -20,7 +20,8 @@
     "framer-motion": "^10.16.5",
     "socket.io-client": "^4.7.4",
     "recharts": "^2.8.0",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "@react-google-maps-api": "^2.19.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
